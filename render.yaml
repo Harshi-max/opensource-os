@@ -1,9 +1,11 @@
 services:
   - type: web
     name: opensource-os
-    env: docker
-    plan: starter
+    runtime: node
+    plan: free
     autoDeploy: true
 
-    dockerfilePath: ./Dockerfile
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+
     healthCheckPath: /api/health
