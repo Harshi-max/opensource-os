@@ -1,6 +1,46 @@
 services:
   - type: web
     name: opensource-os
+    env: docker
+    plan: starter
+    autoDeploy: true
+
+    # Health check uses the existing Express health endpoint
+    healthCheckPath: /api/health
+
+    # Render will build from the Dockerfile at the repo root by default
+    dockerfilePath: ./Dockerfile
+
+    # Environment variables to configure in the Render dashboard
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        # Render sets PORT automatically, but we keep the key for clarity
+        fromService:
+          type: web
+          name: opensource-os
+          property: port
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: SERVER_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+
+services:
+  - type: web
+    name: opensource-os
     runtime: node
     plan: free
     buildCommand: npm install && npm run build
