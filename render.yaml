@@ -1,23 +1,9 @@
 services:
   - type: web
     name: opensource-os
-    runtime: node
-    plan: free
+    env: docker
+    plan: starter
     autoDeploy: true
 
-    buildCommand: npm install && npm run build
-    startCommand: npm start
-
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
-
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: MONGO_URI
-        sync: false
-      - key: JWT_SECRET
-        sync: false
-      - key: OPENAI_API_KEY
-        sync: false
-      - key: GITHUB_TOKEN
-        sync: false
