@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: opensource-os
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        scope: runtime
+      - key: JWT_SECRET
+        scope: runtime
+      - key: OPENAI_API_KEY
+        scope: runtime
+      - key: GITHUB_TOKEN
+        scope: runtime
+
+  - type: mongodb
+    name: opensource-os-db
+    plan: free
+    ipAllowList:
+      - 0.0.0.0/0
