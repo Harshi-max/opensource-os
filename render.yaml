@@ -1,38 +1,23 @@
 services:
   - type: web
     name: opensource-os
-    env: docker
-    plan: starter
-    autoDeploy: true
-
-    # Health check uses the existing Express health endpoint
-    healthCheckPath: /api/health
-
-    # Render will build from the Dockerfile at the repo root
-    dockerfilePath: ./Dockerfile
-
-
-services:
-  - type: web
-    name: opensource-os
     runtime: node
     plan: free
+    autoDeploy: true
+
     buildCommand: npm install && npm run build
     startCommand: npm start
+
+    healthCheckPath: /api/health
+
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
-        scope: runtime
+        sync: false
       - key: JWT_SECRET
-        scope: runtime
+        sync: false
       - key: OPENAI_API_KEY
-        scope: runtime
+        sync: false
       - key: GITHUB_TOKEN
-        scope: runtime
-
-  - type: mongodb
-    name: opensource-os-db
-    plan: free
-    ipAllowList:
-      - 0.0.0.0/0
+        sync: false
